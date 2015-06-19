@@ -68,10 +68,10 @@
     <div class="outer">
       <section id="main">
   
-    <article id="post-20题iOS面试题-答案持续更新" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-CALayer初探" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2015/05/03/20题iOS面试题-答案持续更新/" class="article-date">
-  <time datetime="2015-05-03T07:42:36.000Z" itemprop="datePublished">2015-05-03</time>
+    <a href="/2015/06/19/CALayer初探/" class="article-date">
+  <time datetime="2015-06-19T07:42:36.000Z" itemprop="datePublished">2015-06-19</time>
 </a>
     
   </div>
@@ -82,7 +82,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/03/20题iOS面试题-答案持续更新/">20题iOS问题(答案持续更新)</a>
+      <a class="article-title" href="/2015/06/19/CALayer初探/">CALayer初探</a>
     </h1>
   
 
@@ -90,16 +90,31 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="1-什么是arc？（arc是为了解决什么问题诞生的？）">1.什么是arc？（arc是为了解决什么问题诞生的？）</h3><h3 id="2-请解释以下keywords的区别：_assign_vs_weak,_block_vs_weak">2.请解释以下keywords的区别： assign vs weak, <strong>block vs </strong>weak</h3><h3 id="3-__block在arc和非arc下含义一样吗？">3.__block在arc和非arc下含义一样吗？</h3><h3 id="4-使用nonatomic一定是线程安全的吗？">4.使用nonatomic一定是线程安全的吗？</h3><h3 id="5-描述一个你遇到过的retain_cycle例子">5.描述一个你遇到过的retain cycle例子</h3><h3 id="6-+(void)load;_+(void)initialize；有什么用处？">6.+(void)load; +(void)initialize；有什么用处？</h3><h3 id="7-为什么其他语言里叫函数调用，_objective_c里则是给对象发消息（或者谈下对runtime的理解）">7.为什么其他语言里叫函数调用， objective c里则是给对象发消息（或者谈下对runtime的理解）</h3><h3 id="8-什么是method_swizzling?">8.什么是method swizzling?</h3><h3 id="9-UIView和CALayer是啥关系？">9.UIView和CALayer是啥关系？</h3><h3 id="10-_如何高性能的给UIImageView加个圆角？（layer-cornerRadius的问题）">10. 如何高性能的给UIImageView加个圆角？（layer.cornerRadius的问题）</h3><h3 id="11-_使用drawRect有什么影响？">11. 使用drawRect有什么影响？</h3><h3 id="12-_ASIHttpRequest或者SDWebImage里面给UIImageView加载图片的逻辑是什么样的？">12. ASIHttpRequest或者SDWebImage里面给UIImageView加载图片的逻辑是什么样的？</h3><h3 id="13-_设计个简单的图片内存缓存器（移除策略是一定要说的）">13. 设计个简单的图片内存缓存器（移除策略是一定要说的）</h3><h3 id="14-_用Instrument优化动画性能">14. 用Instrument优化动画性能</h3><h3 id="15-_loadView是干嘛用的？">15. loadView是干嘛用的？</h3><h3 id="16-_viewWillLayoutSubView">16. viewWillLayoutSubView</h3><h3 id="17-_GCD里面有哪几种Queue？你自己建立过串行queue吗？背后的线程模型是什么样的？">17. GCD里面有哪几种Queue？你自己建立过串行queue吗？背后的线程模型是什么样的？</h3><h3 id="18-_用过coredata或者sqlite吗？读写是分线程的吗？如何解决死锁问题？">18. 用过coredata或者sqlite吗？读写是分线程的吗？如何解决死锁问题？</h3><h3 id="19-_http的post和get啥区别？（区别挺多的，麻烦多说点）">19. http的post和get啥区别？（区别挺多的，麻烦多说点）</h3><h3 id="20-_什么是Binary_search_tree?_search的时间复杂度是多少？">20. 什么是Binary search tree? search的时间复杂度是多少？</h3>
+        <p>今天要谈的是CALayer。</p>
+<p>如果你是一个iOS开发者，那么我相信你一定对UIView已经非常熟悉，UIButton，UILabel，UITextView…几乎开发每一个iOS app都会跟UIView及其子类甚至是自定义的UIView打交道。而UIView下面所包含的CALayer，可能很多刚入门iOS的开发者对它并不是很熟悉，也很少在实际开发中使用它，但我们必须对它有所了解，因为它可以帮助我们简单地实现一些图形变换，并且对了解Core Animation至关重要。</p>
+<p>在了解CALayer之前，先了解它跟UIView的关系：</p>
+<p>引自StarkOverFlow的一个<a href="http://stackoverflow.com/questions/7826306/what-are-the-differences-between-a-uiview-and-a-calayer">答案</a>：</p>
+<blockquote>
+<p>On iOS, every UIView is backed by a Core Animation CALayer, so you are dealing with CALayers when using a UIView, even though you may not realize it. Unlike NSViews on the Mac, which evolved before Core Animation existed, UIViews are intended to be lightweight wrappers around these CALayers.</p>
+<p>Working directly with CALayers doesn’t give you significant  performance advantages over UIViews. One of the reasons you might want to build a user interface element with CALayers instead of UIViews is that it can be very easily ported to the Mac. UIViews are very different from NSViews, but CALayers are almost identical on the two platforms. This is why the Core Plot framework lays out its graphs using CALayers instead of other UI elements.</p>
+<p>One thing UIViews provide over CALayers is built-in support for user interaction. They handle hit-testing on touches and other related actions that you would need to build yourself if managing a hierarchy of CALayers. It’s not that hard to implement this yourself, but it is extra code you’d need to write when building a CALayer-only interface.</p>
+<p>You will often need to access the underlying layers for a UIView when performing more complex animations than the base UIView class allows. UIView’s animation capabilities have grown as the iOS SDK has matured, but there are still a few things that are best done by interacting with the underlying CALayer.</p>
+</blockquote>
+<p>这里指出了几个重要的点：<br>
+        
+          <p class="article-more-link">
+            <a href="/2015/06/19/CALayer初探/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
       
-        <a data-url="lizhijiang.github.io/2015/05/03/20题iOS面试题-答案持续更新/" data-id="ciajco7g80000ot238497gwzt" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="lizhijiang.github.io/2015/06/19/CALayer初探/" data-id="cib37lkap00006p23xupe81m3" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
-        <a href="lizhijiang.github.io/2015/05/03/20题iOS面试题-答案持续更新/#ds-thread" class="article-comment-link">評論</a>
+        <a href="lizhijiang.github.io/2015/06/19/CALayer初探/#ds-thread" class="article-comment-link">評論</a>
       
 
       
@@ -144,7 +159,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="lizhijiang.github.io/2015/04/07/使用MacVim代替系统内置Vim/" data-id="ciajco7h40003ot23y1oginp7" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="lizhijiang.github.io/2015/04/07/使用MacVim代替系统内置Vim/" data-id="ciarp1stc0003zk233qiplmct" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -195,7 +210,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="lizhijiang.github.io/2015/03/30/Android-Toolbar使用注意事项/" data-id="ciajco7hm0007ot23pvewk8fz" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="lizhijiang.github.io/2015/03/30/Android-Toolbar使用注意事项/" data-id="ciarp1stw0009zk23k571xp4x" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -240,7 +255,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="lizhijiang.github.io/2015/02/18/Happy-Chinese-new-year/" data-id="ciajco7hj0006ot23f4ekunmz" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="lizhijiang.github.io/2015/02/18/Happy-Chinese-new-year/" data-id="ciarp1stt0008zk23h94ro363" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
@@ -284,7 +299,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">歸檔</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/05/">May 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/06/">June 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/04/">April 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/03/">March 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/02/">February 2015</a><span class="archive-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -296,7 +311,7 @@
       <ul>
         
           <li>
-            <a href="/2015/05/03/20题iOS面试题-答案持续更新/">20题iOS问题(答案持续更新)</a>
+            <a href="/2015/06/19/CALayer初探/">CALayer初探</a>
           </li>
         
           <li>
