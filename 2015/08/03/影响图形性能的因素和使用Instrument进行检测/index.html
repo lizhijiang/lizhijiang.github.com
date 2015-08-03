@@ -113,9 +113,9 @@
 <li>系统限制缓存的大小为2.5 x screen size</li>
 </ul>
 <p>因此，对于经常会改动的内容，不适宜使用光栅化；对于不常使用的layer进行光栅化意义不大，而且浪费资源。</p>
-<p>2，<strong>Offscreen rendering(离屏渲染)</strong><br><a id="more"></a><br>讨论造成离屏渲染的原因之前，先说明什么事离屏渲染：离屏渲染指的是在图像在绘制到当前屏幕前,需要先进行一次渲染,之后才绘制到当前屏幕。在第一次渲染时，GPU(Core Animation)或CPU(Core Graphics)需要额外的一块内存来进行渲染，完成后再绘制到屏幕。offscreen到onscreen需要进行上下文切换，这个切换的性能消耗是昂贵的。</p>
+<p>2，<strong>Offscreen rendering(离屏渲染)</strong><br><a id="more"></a><br>讨论造成离屏渲染的原因之前，先说明什么是离屏渲染：离屏渲染指的是在图像在绘制到当前屏幕前,需要先进行一次渲染,之后才绘制到当前屏幕。在第一次渲染时，GPU(Core Animation)或CPU(Core Graphics)需要额外的一块内存来进行渲染，完成后再绘制到屏幕。offscreen到onscreen需要进行上下文切换，这个切换的性能消耗是昂贵的。</p>
 <p>因此，我们必须避免不必要的离屏渲染。</p>
-<p>造成离屏渲染的原因：</p>
+<p>造成离屏渲染的原因有：</p>
 <ul>
 <li>设置CALayer的cornerRadius，edgeAntialiasingMask，allowsEdgeAntialiasing属性</li>
 <li>把CALayer的maskToBounds设为YES</li>
@@ -123,7 +123,8 @@
 <li>设置CALayer的mask属性</li>
 <li>把CALayer的allowsGroupOpacity属性设为YES而且opacity小于1</li>
 </ul>
-<p>由此可见，很多常用属性都会造成离屏渲染，在性能要求高的地方，就需要使用另外的实现方案。比如使用shadowPath代替使用shadow+shadowOffset+shadowColor；在需要使用圆形图片的tableview里，使用cornerRadius设置圆角是下下之选，可以只用一张中间为透明圆形的图片进行遮盖来达到圆形的效果，或者在使用前就把图片裁剪为圆形。</p>
+<p>等…</p>
+<p>由此可见，很多常用属性都会造成离屏渲染，在性能要求高的地方，就需要使用另外的实现方案。比如使用shadowPath代替使用shadow+shadowOffset+shadowColor；在需要使用圆形图片的tableview里，使用cornerRadius设置圆角是下下之选，可以用一张中间为透明圆形的图片进行遮盖来达到圆形的效果，或者在使用前就把图片裁剪为圆形。</p>
 <p>3，<strong>Blending</strong>(混合绘制)</p>
 <p>GPU会放弃绘制那些完全被其他图层遮盖的内容。如果两个图层叠加在一起，上面的图层不是完全不透明的，那么GPU便会计算合并两个图层的透明重叠像素，这个过程便是blending，这同样也是一个消耗资源的过程。</p>
 <p>因此，不要随便把一个视图或图层的backgroundColor设为透明。</p>
@@ -162,7 +163,7 @@
     </div>
     <footer class="article-footer">
       
-        <a data-url="lizhijiang.github.io/2015/08/03/影响图形性能的因素和使用Instrument进行检测/" data-id="cicvmz1i90003hv23oaeilt5s" class="article-share-link" data-share="baidu">分享到</a>
+        <a data-url="lizhijiang.github.io/2015/08/03/影响图形性能的因素和使用Instrument进行检测/" data-id="cicvoijqr00031z23d44hqzu7" class="article-share-link" data-share="baidu">分享到</a>
       
 
       
