@@ -42,6 +42,7 @@ var Instagram = (function(){
 		if(str.indexOf("outbound-distilleryimage") >= 0 ){
 			var cdnNum = str.match(/outbound-distilleryimage([\s\S]*?)\//)[1];
 			var arr = str.split("/");
+			console.log("http://distilleryimage"+cdnNum+".ak.instagram.com/"+arr[arr.length-1]);
 			return "http://distilleryimage"+cdnNum+".ak.instagram.com/"+arr[arr.length-1];
 		}else{
 			var url = "http://photos-g.ak.instagram.com/hphotos-ak-xpf1/";
