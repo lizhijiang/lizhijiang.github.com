@@ -7,7 +7,7 @@
     
 
     <title>
-      undefined 
+      about 
     </title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -18,12 +18,12 @@
 
     <meta name="description">
 <meta property="og:type" content="website">
-<meta property="og:title" content="lizhijiang's blog">
-<meta property="og:url" content="www.zhijiang.me/tags/iOS/index.html">
+<meta property="og:title" content="about">
+<meta property="og:url" content="www.zhijiang.me/about/index.html">
 <meta property="og:site_name" content="lizhijiang's blog">
 <meta property="og:description">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="lizhijiang's blog">
+<meta name="twitter:title" content="about">
 <meta name="twitter:description">
     
     
@@ -156,97 +156,37 @@ classes that you can use:
         <div class="content-wrapper__inner entry">
             
 
+  <article class="post-container post-container--single">
 
-   <!-- do nothing -->
-
-
-<div class="main-post-list">
-    <ol class="post-list">
+    <header class="post-header">
     
+      
+
+      <h1 class="post-title">about</h1>
+    </header>
+
+    <section class="post">
+      
+    </section>
+
     
-    <li>
+<section id="comment">
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"lizhijiang"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+</section>
 
-      <h2 class="post-list__post-title post-title"><a href="/2015/08/03/影响图形性能的因素和使用Instrument进行检测/" title="link to 影响图形性能的因素和使用Instrument进行检测">影响图形性能的因素和使用Instrument进行检测</a></h2>
-
-      <p class="excerpt">
-        <p><strong>性能问题是一个重大的问题。</strong></p>
-<p>本文讨论的是iOS的图形性能问题。</p>
-<h4 id="影响性能的因素：">影响性能的因素：</h4><p>1，<strong>CALayer的shouldRasterize(光栅化)</strong></p>
-<p>这个属性看上去很不好理解，<em>光栅化是将几何数据经过一系列变换后最终转换为像素，从而呈现在显示设备上的过程。光栅化的本质是坐标变换、几何离散化</em> (<a href="http://blog.csdn.net/waitforfree/article/details/10066547">来源</a>)。<br>
-      </p>
-
-      <div class="post-list__meta">
-
-        <time datetime="2015-08-03" class="post-list__meta--date date">2015-08-03</time> &#8226; 
-
-        <span class="post-list__meta--tags tags">
-          <font class="categories">
-            
-          </font>
-          
-            <font class="tags">
-              <a class="tags-link" href="/tags/iOS/">iOS</a>
-            </font>
-          
-
-        </span>
-      </div>
-
-      <hr class="post-list__divider" />
-    </li>
-    
-    <li>
-
-      <h2 class="post-list__post-title post-title"><a href="/2015/06/19/CALayer初探/" title="link to CALayer初探">CALayer初探</a></h2>
-
-      <p class="excerpt">
-        <p>今天要谈的是CALayer。</p>
-<p>如果你是一个iOS开发者，那么我相信你一定对UIView已经非常熟悉，UIButton，UILabel，UITextView…几乎开发每一个iOS app都会跟UIView及其子类甚至是自定义的UIView打交道。而UIView下面所包含的CALayer，可能很多刚入门iOS的开发者对它并不是很熟悉，也很少在实际开发中使用它，但我们必须对它有所了解，因为它可以帮助我们简单地实现一些图形变换，并且对了解Core Animation至关重要。</p>
-<p>在了解CALayer之前，先了解它跟UIView的关系：</p>
-<p>引自StarkOverFlow的一个<a href="http://stackoverflow.com/questions/7826306/what-are-the-differences-between-a-uiview-and-a-calayer">答案</a>：</p>
-<blockquote>
-<p>On iOS, every UIView is backed by a Core Animation CALayer, so you are dealing with CALayers when using a UIView, even though you may not realize it. Unlike NSViews on the Mac, which evolved before Core Animation existed, UIViews are intended to be lightweight wrappers around these CALayers.</p>
-<p>Working directly with CALayers doesn’t give you significant  performance advantages over UIViews. One of the reasons you might want to build a user interface element with CALayers instead of UIViews is that it can be very easily ported to the Mac. UIViews are very different from NSViews, but CALayers are almost identical on the two platforms. This is why the Core Plot framework lays out its graphs using CALayers instead of other UI elements.</p>
-<p>One thing UIViews provide over CALayers is built-in support for user interaction. They handle hit-testing on touches and other related actions that you would need to build yourself if managing a hierarchy of CALayers. It’s not that hard to implement this yourself, but it is extra code you’d need to write when building a CALayer-only interface.</p>
-<p>You will often need to access the underlying layers for a UIView when performing more complex animations than the base UIView class allows. UIView’s animation capabilities have grown as the iOS SDK has matured, but there are still a few things that are best done by interacting with the underlying CALayer.</p>
-</blockquote>
-<p>这里指出了几个重要的点：<br>
-      </p>
-
-      <div class="post-list__meta">
-
-        <time datetime="2015-06-19" class="post-list__meta--date date">2015-06-19</time> &#8226; 
-
-        <span class="post-list__meta--tags tags">
-          <font class="categories">
-            
-          </font>
-          
-            <font class="tags">
-              <a class="tags-link" href="/tags/iOS/">iOS</a>
-            </font>
-          
-
-        </span>
-      </div>
-
-      <hr class="post-list__divider" />
-    </li>
-    
-  </ol>
-
-  <hr class="post-list__divider " />
-
-<nav class="pagination" role="navigation">
-    
-
-    <span class="pagination__page-number">Page 1 of 1</span>
-    
-    
-</nav>
+  </article>
 
 
-</div>
             <footer class="footer">
     <span class="footer__copyright">&copy; 2014. All rights reserved.</span>
     <span class="footer__copyright"><a href="http://uno.daleanthony.com" title="link to page for Uno Ghost theme">Uno theme</a> by <a href="http://daleanthony.com" title="link to website for Dale-Anthony">Dale-Anthony</a> | Redesign by <a href="http://letiantian.me" title="">樂天</a></span>
