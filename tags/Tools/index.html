@@ -169,7 +169,11 @@ classes that you can use:
       <h2 class="post-list__post-title post-title"><a href="/2015/04/07/使用MacVim代替系统内置Vim/" title="link to 使用MacVim代替系统内置Vim">使用MacVim代替系统内置Vim</a></h2>
 
       <p class="excerpt">
-        
+        <p>在配置Rails的Vim环境的时候，发现OS X内置的Vim版本是7.3，YouCompleteMe插件提示需要Vim7.4，于是很自然地Google一下，得到的答案是，大多数人的建议是保留内置的Vim，另外安装7.4的在机器上(我也十分认同，毕竟任何对build in内容的修改可能会导致不可修复的问题，或者在系统更新的时候把自己的配置覆盖掉)。于是MacVim就成了最好的选择。</p>
+<p><a href="https://code.google.com/p/macvim/">MacVim介绍与下载</a></p>
+<p>下载后把MacVim.app文件复制到Applications目录下，在LaunchPad里就能直接启动MacVim了，但是到这里跟预期还是有所出入，在终端内启动Vim，还是内置的Vim，对于常用终端的人来说，使用MacVim需要另外多开一个窗口，显得十分不便。当然，解决方法自然是有的，想要在终端里用MacVim代替内置的Vim，要在.profile里设置别名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">alias</span> vim=<span class="string">'/Applications/MacVim.app/Contents/MacOS/Vim'</span></span><br></pre></td></tr></table></figure>
+<p>保存后记得执行一下<code>source .profile</code>使修改生效。</p>
       </p>
 
       <div class="post-list__meta">
