@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title><![CDATA[lizhijiang's blog]]></title>
-  <subtitle><![CDATA[Talk is cheap, show me the product.]]></subtitle>
+  <subtitle><![CDATA[Talk is cheap, show me the code.]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="www.zhijiang.me/"/>
   <updated>2015-12-02T11:41:58.000Z</updated>
