@@ -62,6 +62,48 @@
       
 
   <h2 class="post-title" itemprop="name">
+    <a href="/2016/06/12/iOS-runtime实践/">iOS runtime实践</a>
+  </h2>
+
+
+    </header>
+    
+    <section class="post-excerpt" itemprop="description articleBody">
+      <p>
+      
+        早前在项目中遇到一个代码重构的问题，大致就是AClass里面的部分方法需要做扩展，根据不同的机型实现两套不同的方案。当时的想法是保持原有的调用不变(因为引用Aclass和相关的调用的文件太多了)，创建两个Category分别实现两套逻辑，然后在原来的方法里做派发。
+然而同事用了一套不一样的机制：先把AClass里需要扩展的方法实现删除，把两套不同的实现方案写到BClass和CClass里面，然后通过runtime的动态转发，把消息请求发
+      
+      </p>
+      
+      <p>
+          <a href="/2016/06/12/iOS-runtime实践/" class="excerpt-link">Read More...</a>
+      </p>
+      
+    </section>
+    <section class="post-meta">
+    
+      <span> lizhijiang</span>
+    
+    
+    
+    on 
+    <a href='/tags/iOS/'>iOS</a>
+    
+    
+      <time datetime="2016-06-12T13:09:12.000Z" itemprop="datePublished" class="post-date">
+          2016-06-12
+      </time>
+</section>
+
+  </article>
+  
+  <article class="post" itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+    
+    <header class="post-header">
+      
+
+  <h2 class="post-title" itemprop="name">
     <a href="/2015/08/03/影响图形性能的因素和使用Instrument进行检测/">影响图形性能的因素和使用Instrument进行检测</a>
   </h2>
 

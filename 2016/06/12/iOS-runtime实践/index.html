@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html prefix="og: http://ogp.me/ns#">
+
+<head>
+  <meta charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <title>iOS runtime实践 | lizhijiang&#39;s blog</title>
+  <meta name="description" content="Talk is cheap, show me the code." />
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="MobileOptimized" content="320" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="早前在项目中遇到一个代码重构的问题，大致就是AClass里面的部分方法需要做扩展，根据不同的机型实现两套不同的方案。当时的想法是保持原有的调用不变(因为引用Aclass和相关的调用的文件太多了)，创建两个Category分别实现两套逻辑，然后在原来的方法里做派发。
+然而同事用了一套不一样的机制：先把AClass里需要扩展的方法实现删除，把两套不同的实现方案写到BClass和CClass里面，然后通">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS runtime实践">
+<meta property="og:url" content="www.zhijiang.me/2016/06/12/iOS-runtime实践/index.html">
+<meta property="og:site_name" content="lizhijiang's blog">
+<meta property="og:description" content="早前在项目中遇到一个代码重构的问题，大致就是AClass里面的部分方法需要做扩展，根据不同的机型实现两套不同的方案。当时的想法是保持原有的调用不变(因为引用Aclass和相关的调用的文件太多了)，创建两个Category分别实现两套逻辑，然后在原来的方法里做派发。
+然而同事用了一套不一样的机制：先把AClass里需要扩展的方法实现删除，把两套不同的实现方案写到BClass和CClass里面，然后通">
+<meta property="og:image" content="https://github.com/lizhijiang/BlogPhotos/blob/master/Screen%20Shot%202016-08-02%20at%2020.56.58.png?raw=true">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS runtime实践">
+<meta name="twitter:description" content="早前在项目中遇到一个代码重构的问题，大致就是AClass里面的部分方法需要做扩展，根据不同的机型实现两套不同的方案。当时的想法是保持原有的调用不变(因为引用Aclass和相关的调用的文件太多了)，创建两个Category分别实现两套逻辑，然后在原来的方法里做派发。
+然而同事用了一套不一样的机制：先把AClass里需要扩展的方法实现删除，把两套不同的实现方案写到BClass和CClass里面，然后通">
+  <!-- build:css css/screen.css -->
+
+  <link rel="stylesheet" href="/css/screen.css" type="text/css">
+  
+  <!-- endbuild -->
+  
+  <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Merriweather:300,700,700italic,300italic|Open+Sans:700,400" />
+  <meta name="generator" content="lizhijiang's blog">
+  
+  
+  <link rel="alternate" type="application/atom+xml" title="Atom 0.3" href="atom.xml">
+  
+  
+</head>
+
+
+<body class="post-template">
+
+  <header class="main-header post-head no-cover" >
+    <nav class="main-nav  clearfix">
+        
+        <a class="back-button icon-arrow-left" href="/">Home</a>
+        <a class="subscribe-button icon-feed" href="/atom.xml">Subscribe</a>
+    </nav>
+    
+    <a class="scroll-down icon-arrow-left" href="#content" data-offset="-45"><span class="hidden">Scroll Down</span></a>
+</header>
+
+  
+
+<main id="content" class="content" role="main">
+  <article class="post" itemprop="blogPost" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+    <header class="post-header">
+      <h1 class="post-title" itemprop="name">iOS runtime实践</h1>
+      <section class="post-meta">
+  <time datetime="2016-06-12T13:09:12.000Z" itemprop="datePublished" class="post-date">
+      2016-06-12
+  </time>
+  
+  
+  on 
+  <a href='/tags/iOS/'>iOS</a>
+  
+  
+</section>
+
+    </header>
+    <section class="post-content" itemprop="description articleBody">
+      
+
+      
+      <section class="post-updated">
+  Last updated on <time datetime="2016-08-02T13:01:57.000Z" itemprop="dateModified">
+      2016-08-02
+  </time>
+</section>
+
+      
+      <p>早前在项目中遇到一个代码重构的问题，大致就是AClass里面的部分方法需要做扩展，根据不同的机型实现两套不同的方案。当时的想法是保持原有的调用不变(因为引用Aclass和相关的调用的文件太多了)，创建两个Category分别实现两套逻辑，然后在原来的方法里做派发。</p>
+<p>然而同事用了一套不一样的机制：<br>先把AClass里需要扩展的方法实现删除，把两套不同的实现方案写到BClass和CClass里面，然后通过runtime的动态转发，把消息请求发送到对应的Class里面，关键代码大致如下：</p>
+<p><img src="https://github.com/lizhijiang/BlogPhotos/blob/master/Screen%20Shot%202016-08-02%20at%2020.56.58.png?raw=true" alt=""></p>
+<p>但是，个人认为这并不是一个好的方案，反倒让人觉得有点炫技的意思，原因是：</p>
+<p>1，一定程度上隐藏了方法的实现，增加了阅读理解代码的难度，却没有带来别的好处；</p>
+<p>2，代码维护也扩展变得更加困难；</p>
+<p>3，可能会让代码调试更加困难；</p>
+
+    </section>
+    <footer class="post-footer">
+      <!-- <section class="author">
+    <h4>lizhijiang</h4>
+    <p></p>
+    
+      <section>
+        
+      </section>
+    </div>
+</section>
+ -->
+      <!-- <section class="share">
+    <h4>Share this post</h4>
+    <a class="icon-twitter" href="http://twitter.com/share?url=www.zhijiang.me/2016/06/12/iOS-runtime实践/"
+       onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+        <span class="hidden">Twitter</span>
+    </a>
+    <a class="icon-facebook" href="https://www.facebook.com/sharer/sharer.php?u=www.zhijiang.me/2016/06/12/iOS-runtime实践/"
+       onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+        <span class="hidden">Facebook</span>
+    </a>
+    <a class="icon-google-plus" href="https://plus.google.com/share?url=www.zhijiang.me/2016/06/12/iOS-runtime实践/"
+       onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+        <span class="hidden">Google+</span>
+    </a>
+</section> -->
+    </footer>
+  </article>
+  <nav class="pagination" role="pagination">
+  
+  <span class="page-number">•</span>
+  
+  <a class="older-posts" href="/2016/02/18/DNS解析流程/" title="DNS解析流程">
+      Older Post →
+  </a>
+  
+</nav>
+
+  
+</div>
+
+</main>
+
+
+  <footer class="site-footer clearfix">
+ <section class="copyright"><a href="/">lizhijiang's blog</a> &copy; 2015 &bull; All rights reserved.</section>
+ <section class="poweredby">Proudly published with <a class="icon-ghost" href="http://zespia.tw/hexo/"> Hexo</a></section>
+</footer>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="js/jquery-2.0.3.min.js"><\/script>')</script>
+
+<script type="text/javascript" src="/js/index.js"></script>
+
+
+
+
+
+</body>
+</html>
